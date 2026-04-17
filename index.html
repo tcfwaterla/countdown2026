@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搬家倒數 - 新生活的起點</title>
+    <style>
+        :root {
+            --accent-color: #f1c40f;
+            --text-color: #ffffff;
+            --mask-color: rgba(0, 0, 0, 0.5); /* 降低亮度，增加通透感 */
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            background-image: url('image_0.png'); 
+            background-size: cover;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--text-color);
+            /* 改為左上對齊 */
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            overflow: hidden;
+        }
+
+        .container {
+            margin: 40px; /* 距離左上角的間距 */
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            background: var(--mask-color);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: left; /* 文字靠左，更簡潔 */
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin: 0 0 1rem 0;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #f39c12, #f1c40f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .countdown {
+            display: flex;
+            gap: 15px;
+        }
+
+        .time-box {
+            text-align: center;
+        }
+
+        .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+            line-height: 1;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .label {
+            font-size: 0.7rem;
+            color: #bbb;
+            text-transform: uppercase;
+        }
+
+        .footer-msg {
+            margin-top: 1rem;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .source-msg {
+            font-size: 0.7rem;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        /* 手機版微調 */
+        @media (max-width: 600px) {
+            .container { margin: 20px; padding: 1rem; }
+            .number { font-size: 1.8rem; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>竹圍小窩入住倒數</h1>
+    <div class="countdown" id="timer">
+        <div class="time-box">
+            <span class="number" id="days">00</span>
+            <span class="label">Days</span>
+        </div>
+        <div class="time-box">
+            <span class="number" id="hours">00</span>
+            <span class="label">Hrs</span>
+        </div>
+        <div class="time-box">
+            <span class="number" id="minutes">00</span>
+            <span class="label">Min</span>
+        </div>
+        <div class="time-box">
+            <span class="number" id="seconds">00</span>
+            <span class="label">Sec</span>
+        </div>
+    </div>
+    <p class="footer-msg">距離 05 / 16 搬家大吉</p>
+    <p class="source-msg">淡江大橋夕照</p>
+</div>
+
+<script>
+    // 使用明確的日期參數避免解析錯誤 (年, 月-1, 日, 時, 分, 秒)
+    const targetDate = new Date(2026, 4, 16, 0, 0, 0).getTime(); 
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const difference = targetDate - now;
+
+        if (difference <= 0) {
+            document.querySelector('.container').innerHTML = "<h1>搬家順利！新居落成！</h1>";
+            return;
+        }
+
+        const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((difference % (1000 * 60)) / 1000);
+
+        document.getElementById('days').innerText = d.toString().padStart(2, '0');
+        document.getElementById('hours').innerText = h.toString().padStart(2, '0');
+        document.getElementById('minutes').innerText = m.toString().padStart(2, '0');
+        document.getElementById('seconds').innerText = s.toString().padStart(2, '0');
+    }
+
+    // 每 1000 毫秒 (1秒) 強制執行一次
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+</script>
+
+</body>
+</html>
